@@ -18,7 +18,7 @@ namespace Controllers
         public static MazeGenerator Instance;
 
         public static event Action<MazeGenerator> OnMazeGeneratedCallback;
-    
+        
         [Header("Prefabs")] 
         [SerializeField] private GameObject cellPrefab;
         [SerializeField] private GameObject enemyPrefab;
@@ -33,6 +33,7 @@ namespace Controllers
         public Vector2Int endPosition {get; private set;}
         public Dictionary<Vector2Int, Cell> cells;
         public List<Enemy> enemies;
+        public Transform endCellTransform;
     
         private Cell _startCell;
         private Cell _endCell;
@@ -86,6 +87,9 @@ namespace Controllers
                         Quaternion.identity, 
                         transform
                     );
+                    if (cell.position == endPosition) 
+                        endCellTransform = cellGO.transform;
+                    
                     var cellRenderer = cellGO.GetComponent<CellRenderer>();
                     cellRenderer.SetCell(cell);
                 }
